@@ -65,14 +65,22 @@ namespace WFA230509
             }
         }
 
-        private void OnButtonClick(object? sender, EventArgs e)
+        private void OnButtonClick(object sender, EventArgs e)
         {
+            Button btn = sender as Button;
+
             this.Hide();
             _ = (Activator.CreateInstance(
                 Assembly
                 .GetExecutingAssembly()
                 .GetTypes().First(t => t.Name == (sender as Button).Name)) as Form)
                 .ShowDialog();
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Type type = assembly.GetTypes().First(t => t.Name == btn.Name);
+            using Form form = (Form)Activator.CreateInstance(type);
+            _ = form.ShowDialog();
+
             this.Show();
         }
     }
